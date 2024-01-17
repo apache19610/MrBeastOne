@@ -5,23 +5,29 @@ using UnityEngine;
 public class OpenCloseEatsWater : MonoBehaviour
 {
     public GameObject[] eatsWater;
-    public float timer;
-    public float resultTimer;
+    public int numberSpawn = 20;
 
     private void Start()
     {
-        timer = 0; 
+        StartCoroutine(OpenCloseWaterEat());
+        numberSpawn = 20;
     }
 
     private void Update()
     {
-        timer +=  1 * Time.deltaTime;
-        resultTimer = ((int)(timer * 10)) / 10f;
-        if (resultTimer == 5)  
+
+    }
+
+    IEnumerator OpenCloseWaterEat()
+    {
+        while (numberSpawn >= 0) 
         {
             GameObject newObj;
-            newObj = eatsWater[Random.Range(0, 6)];
+            newObj = eatsWater[numberSpawn];
             newObj.SetActive(true);
+            yield return new WaitForSeconds(180f);
+            Destroy(eatsWater[numberSpawn]);
+            numberSpawn--;
         }
     }
 }
