@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class FirstPersonMovement : MonoBehaviour
 {
     public float speed = 5;
+    [SerializeField] private FixedJoystick joystick; 
 
     [Header("Running")]
     public bool canRun = true;
@@ -39,6 +41,13 @@ public class FirstPersonMovement : MonoBehaviour
         Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
 
         // Apply movement.
-        rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+        if (CanvasCheckPlatform.isPlatforms == true)
+        {
+            rigidbody.velocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.velocity.y, targetVelocity.y);
+        }
+        else
+        {
+            rigidbody.velocity = transform.rotation * new Vector3(joystick.Horizontal * speed, rigidbody.velocity.y, joystick.Vertical * speed);
+        }
     }
 }

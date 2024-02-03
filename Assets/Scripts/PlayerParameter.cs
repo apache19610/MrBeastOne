@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerParameter : MonoBehaviour
 {
+    
+    public Yandex yandex;
     public  float health;
     public float water;
     public float eat;
@@ -24,6 +26,11 @@ public class PlayerParameter : MonoBehaviour
     public GameObject TextEat;
     public GameObject TextWater;
     public GameObject TextSleep;
+    public GameObject MainCamera;
+    public GameObject MainCamera2;
+
+    bool isSleep;
+    bool CheckButtonSleep;
 
     private void Start()
     {
@@ -37,7 +44,7 @@ public class PlayerParameter : MonoBehaviour
 
     private void Update()
     {
-        CheckEat();
+        CheckAll();
         UpdateParametersEverySecond();
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -118,7 +125,7 @@ public class PlayerParameter : MonoBehaviour
         }
     }
 
-    public void CheckEat()
+    public void CheckAll()
     {
         RaycastHit hit;
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, range))
@@ -139,6 +146,14 @@ public class PlayerParameter : MonoBehaviour
                 else if(hit.transform.GetComponent<Target>().CompareTag("Bed"))
                 {
                     TextSleep.SetActive(true);
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        StartCoroutine(Sleep());
+                    }
+                    else if (CheckButtonSleep == true)
+                    {
+                        StartCoroutine(Sleep());
+                    }
                 }
                 else
                 {
@@ -154,6 +169,27 @@ public class PlayerParameter : MonoBehaviour
                 TextSleep.SetActive(false);
             }
         }
+    } 
+
+    IEnumerator Sleep()
+    {
+        int numberCount = 0;
+        while (numberCount < 1)
+        {
+            Yandex.ShowAdvSleep();
+            isSleep = true;
+            MainCamera2.SetActive(true);
+            MainCamera.SetActive(false);
+            yield return new WaitForSeconds(5f);
+            numberCount = 1;
+            MainCamera.SetActive(true);
+            MainCamera2.SetActive(false);
+            isSleep = false;
+        }
     }
-    
+
+    public void SleepMobile()
+    {
+        CheckButtonSleep = true;
+    }
 }
