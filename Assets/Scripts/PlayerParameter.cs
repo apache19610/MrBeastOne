@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerParameter : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class PlayerParameter : MonoBehaviour
     public GameObject TextSleep;
     public GameObject MainCamera;
     public GameObject MainCamera2;
+    public GameObject DieText;
 
     bool isSleep;
     bool CheckButtonSleep;
@@ -85,7 +87,7 @@ public class PlayerParameter : MonoBehaviour
         }
         else if (health <= 0)
         {
-            Debug.Log("We are die");
+            StartCoroutine(Die());
         }
     }
 
@@ -185,6 +187,16 @@ public class PlayerParameter : MonoBehaviour
             MainCamera.SetActive(true);
             MainCamera2.SetActive(false);
             isSleep = false;
+        }
+    }
+
+    IEnumerator Die()
+    {
+        while (true)
+        {
+            DieText.SetActive(true);
+            yield return new WaitForSeconds(5f);
+            SceneManager.LoadScene("Main");
         }
     }
 

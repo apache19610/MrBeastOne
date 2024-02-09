@@ -27,6 +27,7 @@ public class FirstPersonMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+
         // Update IsRunning from input.
         IsRunning = canRun && Input.GetKey(runningKey);
 
@@ -35,6 +36,7 @@ public class FirstPersonMovement : MonoBehaviour
         if (speedOverrides.Count > 0)
         {
             targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();
+            
         }
 
         // Get targetVelocity from input.
@@ -47,7 +49,9 @@ public class FirstPersonMovement : MonoBehaviour
         }
         else
         {
-            rigidbody.velocity = transform.rotation * new Vector3(joystick.Horizontal * speed, rigidbody.velocity.y, joystick.Vertical * speed);
+            rigidbody.velocity = new Vector3(joystick.Horizontal * speed, rigidbody.velocity.y, joystick.Vertical * speed);
         }
+
+
     }
 }
