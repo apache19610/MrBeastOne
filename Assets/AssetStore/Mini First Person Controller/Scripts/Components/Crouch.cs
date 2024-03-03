@@ -34,7 +34,7 @@ public class Crouch : MonoBehaviour
         colliderToLower = movement.GetComponentInChildren<CapsuleCollider>();
     }
 
-    void LateUpdate()
+    /*void LateUpdate()
     {
         if (Input.GetKey(key))
         {
@@ -107,7 +107,7 @@ public class Crouch : MonoBehaviour
                 CrouchEnd?.Invoke();
             }
         }
-    }
+    }*/
 
 
     #region Speed override.

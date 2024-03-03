@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerParameter : MonoBehaviour
 {
-    
-    public Yandex yandex;
     public  float health;
     public float water;
     public float eat;
@@ -30,6 +28,12 @@ public class PlayerParameter : MonoBehaviour
     public GameObject MainCamera;
     public GameObject MainCamera2;
     public GameObject DieText;
+    public GameObject DeadImage;
+    public GameObject firstpersonaudio;
+    public GameObject FonForButtons;
+    public GameObject textSleep;
+    public FirstPersonLook firstPersonLook;
+    public FirstPersonMovement firstPersonMovement;
 
     bool isSleep;
     bool CheckButtonSleep;
@@ -73,21 +77,21 @@ public class PlayerParameter : MonoBehaviour
         {
             health -= healthAmount1 * Time.deltaTime;
         }
-        else if (water <= 0)
+        if (water <= 0)
         {
             health -= healtAmount2 * Time.deltaTime;
         }
-        else if (eat <= 0)
-        {
+        if (eat <= 0)
+        { 
             health -= healtAmount2 * Time.deltaTime;
         }
-        else if (water >= 0 && eat >= 0 && health < 100) 
+        if (water >= 0 && eat >= 0 && health < 100) 
         {
             health += healtAmount2 * Time.deltaTime;
         }
-        else if (health <= 0)
+        if (health <= 0)
         {
-            StartCoroutine(Die());
+            Die();
         }
     }
 
@@ -178,28 +182,50 @@ public class PlayerParameter : MonoBehaviour
         int numberCount = 0;
         while (numberCount < 1)
         {
-            Yandex.ShowAdvSleep();
+            textSleep.SetActive(true);
             isSleep = true;
             MainCamera2.SetActive(true);
             MainCamera.SetActive(false);
             yield return new WaitForSeconds(5f);
+            Yandex.ShowAdvSleep();
             numberCount = 1;
             MainCamera.SetActive(true);
             MainCamera2.SetActive(false);
             isSleep = false;
+            textSleep.SetActive(false);
         }
     }
 
-    IEnumerator Die()
+    public void Die()
     {
-        while (true)
+        DeadImage.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        firstPersonMovement.speed = 0;
+        firstpersonaudio.SetActive(false);
+        firstPersonLook.sensitivity = 0;
+        StartCoroutine(ShowAdvOpen());
+    }
+    IEnumerator ShowAdvOpen()
+    {
+        int number = 0;
+        while (number < 1) 
         {
-            DieText.SetActive(true);
-            yield return new WaitForSeconds(5f);
-            SceneManager.LoadScene("Main");
+            yield return new WaitForSeconds(1.5f);
+            Yandex.ShowAdvSleep();
+            number++;
+            StartCoroutine(FonForButtonsOpen());
         }
     }
-
+    IEnumerator FonForButtonsOpen()
+    {
+        int number = 0;
+        while (number < 1)
+        {
+            yield return new WaitForSeconds(1.5f);
+            FonForButtons.SetActive(true);
+            number++;
+        }
+    }
     public void SleepMobile()
     {
         CheckButtonSleep = true;

@@ -12,7 +12,7 @@ YaGames.init().then(ysdk => ysdk.adv.showFullscreenAdv({
     callbacks: {
     	onOpen: () => {
           console.log('Video ad open.');
-
+       
           myGameInstance.SendMessage("GameManager", "OpenAdv");
         },
         onClose: function(wasShown) {
